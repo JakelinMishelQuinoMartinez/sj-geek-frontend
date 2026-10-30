@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S&J-GEEK | Panel Administrador</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="index.html">S&J<span>-GEEK</span></a>
+        </div>
+        <nav id="nav-menu">
+            <a href="index.html">Inicio</a>
+            <a href="#" id="btn-logout">Cerrar Sesión</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2 style="font-size: 2rem; margin-bottom: 0.5rem;">Panel de Administración</h2>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Aprobación de obras, publicación directa con subida de fotos y control de categorías.</p>
+
+        <!-- Pestañas de Navegación del Panel -->
+        <div style="display: flex; gap: 0.75rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; flex-wrap: wrap;">
+            <button id="tab-pendientes" class="btn" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;">Obras Pendientes</button>
+            <button id="tab-crear" class="btn btn-secondary" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;">+ Publicar Obra</button>
+            <button id="tab-categorias" class="btn btn-secondary" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;">Gestión de Categorías</button>
+        </div>
+
+        <!-- SECCIÓN 1: CONTENIDOS PENDIENTES -->
+        <section id="sec-pendientes">
+            <h3 style="margin-bottom: 1rem;">Propuestas Pendientes de Aprobación</h3>
+            <div id="pending-list">
+                <p>Cargando pendientes...</p>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: PUBLICAR OBRA DIRECTA (ADMIN) CON SUBIDA DE FOTOS -->
+        <section id="sec-crear" style="display: none; max-width: 650px;">
+            <div style="background: var(--card-bg); padding: 1.75rem; border-radius: 0.5rem; border: 1px solid var(--border-color);">
+                <h3 style="margin-bottom: 1.25rem;">Publicar Nueva Obra en el Catálogo</h3>
+                
+                <form id="admin-movie-form">
+                    <label for="adm-titulo">Título de la Obra *</label>
+                    <input type="text" id="adm-titulo" placeholder="Ej. Blade Runner 2049" required>
+
+                    <div style="display: flex; gap: 1rem;">
+                        <div style="flex: 1;">
+                            <label for="adm-tipo">Tipo de Contenido *</label>
+                            <select id="adm-tipo" required>
+                                <option value="1">Película</option>
+                                <option value="2">Serie</option>
+                                <option value="3">Anime</option>
+                                <option value="4">OVA</option>
+                            </select>
+                        </div>
+                        <div style="flex: 1;">
+                            <label for="adm-categoria">Género / Categoría *</label>
+                            <select id="adm-categoria" required>
+                                <option value="">Selecciona género...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem;">
+                        <div style="flex: 1;">
+                            <label for="adm-anio">Año de Lanzamiento *</label>
+                            <input type="number" id="adm-anio" min="1888" max="2100" placeholder="2024" required>
+                        </div>
+                        <div style="flex: 1;">
+                            <label for="adm-clasificacion">Clasificación *</label>
+                            <select id="adm-clasificacion" required>
+                                <option value="+13">+13 (Adolescentes)</option>
+                                <option value="TP">TP (Todo Público)</option>
+                                <option value="+16">+16 (Jóvenes / Adultos)</option>
+                                <option value="+18">+18 (Adultos)</option>
+                            </select>
+                        </div>
+                        <div style="flex: 1;">
+                            <label for="adm-duracion">Minutos</label>
+                            <input type="number" id="adm-duracion" min="1" placeholder="120">
+                        </div>
+                    </div>
+
+                    <!-- Subida de Fotos desde el Equipo -->
+                    <div style="background: rgba(11, 17, 32, 0.6); border: 1px solid var(--border-color); padding: 1rem; border-radius: 0.375rem; margin-bottom: 1rem;">
+                        <label for="adm-file" style="font-weight: 600; font-size: 0.85rem; margin-bottom: 0.4rem; display: block;">
+                            Subir Foto / Portada desde tu equipo
+                        </label>
+                        <input type="file" id="adm-file" accept="image/*" style="margin-bottom: 0.5rem;">
+                        <div id="adm-preview-wrap" style="display: none; align-items: center; gap: 0.75rem; margin-top: 0.5rem;">
+                            <img id="adm-preview-img" style="width: 55px; height: 75px; object-fit: cover; border-radius: 0.25rem; border: 1px solid var(--border-color);">
+                            <span id="adm-preview-text" style="font-size: 0.8rem; color: var(--text-muted);"></span>
+                        </div>
+                        <input type="hidden" id="adm-uploaded-url">
+                    </div>
+
+                    <label for="adm-imagen">O enlace URL de Póster</label>
+                    <input type="url" id="adm-imagen" placeholder="https://image.tmdb.org/...">
+
+                    <label for="adm-sinopsis">Sinopsis *</label>
+                    <textarea id="adm-sinopsis" rows="3" placeholder="Argumento de la obra..." required></textarea>
+
+                    <button type="submit" class="btn btn-success" style="width: 100%; margin-top: 0.5rem;">Publicar en el Catálogo</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: CRUD DE CATEGORÍAS -->
+        <section id="sec-categorias" style="display: none;">
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; flex-wrap: wrap;">
+                <!-- Formulario Crear/Editar Categoría -->
+                <div style="background: var(--card-bg); padding: 1.5rem; border-radius: 0.5rem; border: 1px solid var(--border-color); height: fit-content;">
+                    <h3 id="cat-form-title" style="margin-bottom: 1rem;">Nueva Categoría</h3>
+                    <form id="category-form">
+                        <input type="hidden" id="cat-id">
+                        
+                        <label for="cat-nombre">Nombre *</label>
+                        <input type="text" id="cat-nombre" placeholder="Ej: Cyberpunk" required>
+
+                        <label for="cat-descripcion">Descripción</label>
+                        <textarea id="cat-descripcion" rows="3" placeholder="Descripción de la categoría..."></textarea>
+
+                        <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                            <button type="submit" id="btn-save-cat" class="btn btn-success" style="flex: 1;">Guardar</button>
+                            <button type="button" id="btn-cancel-cat" class="btn btn-secondary" style="display: none;">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Lista de Categorías -->
+                <div>
+                    <h3 style="margin-bottom: 1rem;">Categorías Existentes</h3>
+                    <div id="categories-list">
+                        <p>Cargando categorías...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
