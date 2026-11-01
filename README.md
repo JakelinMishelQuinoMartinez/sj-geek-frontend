@@ -56,12 +56,16 @@ python -m http.server 5000
 
 ## Conexión con el backend
 
-La URL del backend se configura en `js/api.js`:
+La URL del backend se configura en `js/api.js`. Para desarrollo local:
 ```javascript
-const API_URL = 'http://localhost:3000/api';
+const API_URL = window.SJ_GEEK_API_URL || 'http://localhost:3000/api';
+```
+Para GitHub Pages, sustituirla por la URL HTTPS pública del backend desplegado:
+```javascript
+const API_URL = window.SJ_GEEK_API_URL || 'https://tu-api.example.com/api';
 ```
 
-El backend debe estar corriendo en el puerto 3000 antes de usar la aplicación.
+El backend debe estar corriendo antes de usar la aplicación en local. En producción, `FRONTEND_URL` del backend debe incluir la URL de GitHub Pages y ambos orígenes deben usar HTTPS.
 
 ---
 
