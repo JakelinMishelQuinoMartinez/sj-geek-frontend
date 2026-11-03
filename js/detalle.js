@@ -210,7 +210,7 @@ async function loadReviews(id) {
 // Crear nueva reseña
 async function handleCreateReview(e) {
     e.preventDefault();
-    const titulo_resena = document.getElementById('titulo_resena').value.trim();
+    const titulo = document.getElementById('titulo_resena').value.trim();
     const rating = parseInt(document.getElementById('rating').value);
     const comentario = document.getElementById('comentario').value.trim();
 
@@ -219,7 +219,7 @@ async function handleCreateReview(e) {
             method: 'POST',
             body: JSON.stringify({
                 contenido_id: parseInt(currentContentId),
-                titulo_resena,
+                titulo,
                 rating,
                 comentario
             })
